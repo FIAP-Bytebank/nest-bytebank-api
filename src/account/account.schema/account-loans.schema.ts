@@ -14,7 +14,7 @@ export class ReqLoan {
   data: string;
 
   @Prop()
-  aberto?: boolean;
+  aberto: boolean;
 
   @Prop()
   tipo: TransacationTypes.EMPRESTIMO;
