@@ -11,7 +11,7 @@ import {
 import { TransacationTypes } from '../../shared/utils/transaction-types';
 import { transferenciaTypeFactory } from '../account.schema/utils/functions/trasnfer-dto-type';
 
-class DepositDto {
+export class DepositDto {
   @IsString()
   @IsNotEmpty()
   id: string;
@@ -97,7 +97,7 @@ export class PixDto {
   tipo: TransacationTypes.PIX;
 }
 
-class ReqLoanDto {
+export class ReqLoanDto {
   @IsString()
   @IsNotEmpty()
   id: string;
