@@ -1,23 +1,54 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  MethodNotAllowedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Account } from './account.schema/account.schema';
+import { Account } from '../account.schema/account.schema';
 import mongoose from 'mongoose';
-import { RegisterAccountDto } from './dto/create-account.dto';
-import { ReqLoan } from './account.schema/account-loans.schema';
+import { RegisterAccountDto } from '../dto/create-account.dto';
+import { ReqLoan } from '../account.schema/account-loans.schema';
 
 @Injectable()
-export class AccountService {
+export class LoanService {
   constructor(
     @InjectModel(Account.name)
     private accountModel: mongoose.Model<Account>
   ) {}
 
-  async createAccount(acc: RegisterAccountDto): Promise<RegisterAccountDto> {
-    const response = await this.accountModel.create(acc);
-    return response;
+  /* ==== START LOAN ==== */
+  async addNewLoan(id: string, loanBody: ReqLoan) {
+    const account: any = await this.accountModel.findById(id);
+
+    if (!account) {
+      throw new NotFoundException(
+        `Não foi possível localizar a conta id ${id}`
+      );
+    }
+
+    let formatedLoan = {
+      ...loanBody,
+      aberto: true,
+      valorDevido: loanBody.valor,
+      valorPago: 0,
+    };
+
+    if (account.linhaCredito < loanBody.valor) {
+      throw new MethodNotAllowedException(
+        `Não é possível solicitar R$ ${loanBody.valor} pois a quantia é acima da sua linha de crédito (R$ ${account.linhaCredito})`
+      );
+    }
+
+    let body = {
+      ...account.toObject(),
+      saldo: account.saldo - loanBody.valor,
+      linhaCredito: account.linhaCredito - loanBody.valorPago,
+      historicoEmprestimos: [...account.historicoEmprestimos, formatedLoan],
+    };
+
+    return await this.accountModel.findByIdAndUpdate(id, body, { new: true });
   }
 
-  // paying loan debit
   async updateLoanStatus(id: string, loanBody: ReqLoan) {
     const account: any = await this.accountModel.findById(id);
 
@@ -55,6 +86,7 @@ export class AccountService {
 
         const updatedLoan = {
           ...account.toObject(),
+          linhaCredito: account.linhaCredito + loanBody.valorPago,
           saldo: loanBody.valorPago + account.saldo,
           historicoEmprestimos: parsedLoans,
         };
@@ -66,31 +98,6 @@ export class AccountService {
     }
 
     return;
-  }
-
-  async addNewLoan(id: string, loanBody: ReqLoan) {
-    const account: any = await this.accountModel.findById(id);
-
-    if (!account) {
-      throw new NotFoundException(
-        `Não foi possível localizar a conta id ${id}`
-      );
-    }
-
-    let formatedLoan = {
-      ...loanBody,
-      aberto: true,
-      valorDevido: loanBody.valor,
-      valorPago: 0,
-    };
-
-    let body = {
-      ...account.toObject(),
-      saldo: account.saldo - loanBody.valor,
-      historicoEmprestimos: [...account.historicoEmprestimos, formatedLoan],
-    };
-
-    return await this.accountModel.findByIdAndUpdate(id, body, { new: true });
   }
 
   async deleteLoan(id: string, loanId: string) {
@@ -131,5 +138,12 @@ export class AccountService {
     }
 
     return;
+  }
+  /* ==== END LOAN ==== */
+
+  // creates bank account
+  async createAccount(acc: RegisterAccountDto): Promise<RegisterAccountDto> {
+    const response = await this.accountModel.create(acc);
+    return response;
   }
 }

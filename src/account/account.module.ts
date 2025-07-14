@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AccountService } from './account.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Account, AccountSchema } from './account.schema/account.schema';
 import { AccountController } from './account.controller';
@@ -7,6 +6,8 @@ import {
   TransPixSchema,
   TransTedSchema,
 } from './account.schema/account-transactions.schema';
+import { LoanService } from './services/loan.service';
+import { DepositService } from './services/deposit.service';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import {
       },
     ]),
   ],
-  providers: [AccountService],
+  providers: [LoanService, DepositService],
   controllers: [AccountController],
 })
 export class AccountModule {}

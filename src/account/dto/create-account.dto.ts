@@ -18,7 +18,7 @@ export class DepositDto {
 
   @IsNumber()
   @IsNotEmpty()
-  valor: number | string;
+  valor: number;
 
   @IsString()
   @IsNotEmpty()
