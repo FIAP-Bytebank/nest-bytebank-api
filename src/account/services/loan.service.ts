@@ -26,6 +26,16 @@ export class LoanService {
       );
     }
 
+    let loanAlrExists = account.historicoEmprestimos.find(
+      (ln: ReqLoan) => ln.id === loanBody.id
+    );
+
+    if (loanAlrExists) {
+      throw new MethodNotAllowedException(
+        `Já existe uma transação com o id ${loanBody.id}`
+      );
+    }
+
     let formatedLoan = {
       ...loanBody,
       aberto: true,
@@ -41,8 +51,7 @@ export class LoanService {
 
     let body = {
       ...account.toObject(),
-      saldo: account.saldo - loanBody.valor,
-      linhaCredito: account.linhaCredito - loanBody.valorPago,
+      linhaCredito: account.linhaCredito - loanBody.valor,
       historicoEmprestimos: [...account.historicoEmprestimos, formatedLoan],
     };
 
@@ -58,46 +67,39 @@ export class LoanService {
       );
     }
 
-    let targetLoan: ReqLoan | any = {};
+    let targetLoan = account.historicoEmprestimos.find(
+      (ln: ReqLoan) => ln.id === loanBody.id
+    );
 
-    for (let i = 0; i < account.historicoEmprestimos.length; i++) {
-      if (account.historicoEmprestimos[i].id === loanBody.id) {
-        targetLoan = account.historicoEmprestimos[i];
-
-        if (!targetLoan) {
-          throw new NotFoundException(
-            `Não foi possível localizar o empréstimo id ${loanBody.id}`
-          );
-        }
-
-        let resValorDevido = targetLoan.valorDevido - loanBody.valorPago;
-        let isLoanOpen = resValorDevido > 0;
-
-        let body = {
-          ...loanBody,
-          valorDevido: resValorDevido,
-          aberto: isLoanOpen,
-          valorPago: targetLoan.valorPago + loanBody.valorPago,
-        };
-
-        const parsedLoans = account.historicoEmprestimos.map((l: any) =>
-          String(l.id) === String(targetLoan.id) ? { ...l, ...body } : l
-        );
-
-        const updatedLoan = {
-          ...account.toObject(),
-          linhaCredito: account.linhaCredito + loanBody.valorPago,
-          saldo: loanBody.valorPago + account.saldo,
-          historicoEmprestimos: parsedLoans,
-        };
-
-        return await this.accountModel.findByIdAndUpdate(id, updatedLoan, {
-          new: true,
-        });
-      }
+    if (!targetLoan) {
+      throw new NotFoundException(
+        `Não foi possível localizar o empréstimo id ${loanBody.id}`
+      );
     }
 
-    return;
+    let resValorDevido = targetLoan.valorDevido - loanBody.valorPago;
+    let isLoanOpen = resValorDevido > 0;
+
+    let body = {
+      ...loanBody,
+      valorDevido: resValorDevido,
+      aberto: isLoanOpen,
+      valorPago: targetLoan.valorPago + loanBody.valorPago,
+    };
+
+    const parsedLoans = account.historicoEmprestimos.map((l: any) =>
+      String(l.id) === String(targetLoan.id) ? { ...l, ...body } : l
+    );
+
+    const updatedLoan = {
+      ...account.toObject(),
+      linhaCredito: account.linhaCredito + loanBody.valorPago,
+      historicoEmprestimos: parsedLoans,
+    };
+
+    return await this.accountModel.findByIdAndUpdate(id, updatedLoan, {
+      new: true,
+    });
   }
 
   async deleteLoan(id: string, loanId: string) {
@@ -109,41 +111,29 @@ export class LoanService {
       );
     }
 
-    let targetLoan: ReqLoan | any = {};
+    let targetLoan = account.historicoEmprestimos.find(
+      (ln: ReqLoan) => ln.id === loanId
+    );
 
-    for (let i = 0; i < account.historicoEmprestimos.length; i++) {
-      if (account.historicoEmprestimos[i].id === loanId) {
-        targetLoan = account.historicoEmprestimos[i];
-
-        if (!targetLoan) {
-          throw new NotFoundException(
-            `Não foi possível localizar o empréstimo id ${loanId}`
-          );
-        }
-
-        const parsedLoans = account.historicoEmprestimos.filter(
-          (l: any) => String(l.id) !== String(targetLoan.id)
-        );
-
-        const updatedLoan = {
-          ...account.toObject(),
-          saldo: account.saldo + targetLoan.valorPago,
-          historicoEmprestimos: parsedLoans,
-        };
-
-        return await this.accountModel.findByIdAndUpdate(id, updatedLoan, {
-          new: true,
-        });
-      }
+    if (!targetLoan) {
+      throw new NotFoundException(
+        `Não foi possível localizar o empréstimo id ${loanId}`
+      );
     }
 
-    return;
+    const parsedLoans = account.historicoEmprestimos.filter(
+      (l: any) => String(l.id) !== String(targetLoan.id)
+    );
+
+    const updatedLoan = {
+      ...account.toObject(),
+      linhaCredito: account.linhaCredito + targetLoan.valor,
+      historicoEmprestimos: parsedLoans,
+    };
+
+    return await this.accountModel.findByIdAndUpdate(id, updatedLoan, {
+      new: true,
+    });
   }
   /* ==== END LOAN ==== */
-
-  // creates bank account
-  async createAccount(acc: RegisterAccountDto): Promise<RegisterAccountDto> {
-    const response = await this.accountModel.create(acc);
-    return response;
-  }
 }

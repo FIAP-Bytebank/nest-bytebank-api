@@ -18,9 +18,6 @@ export class TransTed extends TransferenciaBase {
 
   @Prop()
   descricao: string;
-
-  @Prop()
-  tipo: TransacationTypes.TED;
 }
 
 @Schema()
@@ -33,8 +30,6 @@ export class TransPix extends TransferenciaBase {
 
   @Prop()
   descricao: string;
-  @Prop()
-  tipo: TransacationTypes.PIX;
 }
 
 @Schema({

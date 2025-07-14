@@ -62,9 +62,9 @@ export class TedDto {
   @IsNotEmpty()
   descricao: string;
 
-  @Equals(TransacationTypes.TED, { message: 'O tipo deve ser TED.' })
-  @IsNotEmpty()
-  tipo: TransacationTypes.TED;
+  // @Equals(TransacationTypes.TED, { message: 'O tipo deve ser TED.' })
+  // @IsNotEmpty()
+  // tipo: TransacationTypes.TED;
 }
 
 export class PixDto {
@@ -92,9 +92,9 @@ export class PixDto {
   @IsNotEmpty()
   destinatario: string;
 
-  @Equals(TransacationTypes.PIX, { message: 'O tipo deve ser PIX.' })
-  @IsNotEmpty()
-  tipo: TransacationTypes.PIX;
+  // @Equals(TransacationTypes.PIX, { message: 'O tipo deve ser PIX.' })
+  // @IsNotEmpty()
+  // tipo: TransacationTypes.PIX;
 }
 
 export class ReqLoanDto {
@@ -114,12 +114,6 @@ export class ReqLoanDto {
   @IsNotEmpty()
   aberto: boolean;
 
-  @Equals(TransacationTypes.EMPRESTIMO, {
-    message: 'O tipo deve ser EMPRESTIMO.',
-  })
-  @IsNotEmpty()
-  tipo: TransacationTypes.EMPRESTIMO;
-
   @IsNumber()
   @IsNotEmpty()
   valorPago: number;
@@ -127,6 +121,12 @@ export class ReqLoanDto {
   @IsNumber()
   @IsNotEmpty()
   valorDevido: number;
+
+  @Equals(TransacationTypes.EMPRESTIMO, {
+    message: 'O tipo deve ser EMPRESTIMO.',
+  })
+  @IsNotEmpty()
+  tipo: TransacationTypes.EMPRESTIMO;
 }
 
 export class RegisterAccountDto {

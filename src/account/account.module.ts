@@ -1,3 +1,4 @@
+import { AccountService } from './services/account.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Account, AccountSchema } from './account.schema/account.schema';
@@ -8,10 +9,10 @@ import {
 } from './account.schema/account-transactions.schema';
 import { LoanService } from './services/loan.service';
 import { DepositService } from './services/deposit.service';
+import { TransactionService } from './services/transaction.service';
 
 @Module({
   imports: [
-    // MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema }]),
     MongooseModule.forFeatureAsync([
       {
         name: Account.name,
@@ -31,7 +32,7 @@ import { DepositService } from './services/deposit.service';
       },
     ]),
   ],
-  providers: [LoanService, DepositService],
+  providers: [AccountService, LoanService, DepositService, TransactionService],
   controllers: [AccountController],
 })
 export class AccountModule {}

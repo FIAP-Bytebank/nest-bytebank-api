@@ -39,7 +39,7 @@ export class Account {
     type: [TransferenciaBaseSchema],
     default: [],
   })
-  transferencias: (TransTed | TransPix)[];
+  transferencias: (TransTed & Document)[] | (TransPix & Document)[];
 
   @Prop({ type: () => [ReqLoan], default: [] })
   historicoEmprestimos: ReqLoan[];

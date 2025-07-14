@@ -27,7 +27,6 @@ export class DepositService {
       depositos: [...account.depositos, depositBody],
     };
 
-    console.log(body);
     return await this.accountModel.findByIdAndUpdate(id, body, { new: true });
   }
 
