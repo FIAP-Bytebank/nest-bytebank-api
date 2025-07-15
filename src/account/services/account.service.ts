@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Account } from './../../account/account.schema/account.schema';
 import { RegisterAccountDto } from './../../account/dto/create-account.dto';
@@ -18,5 +18,19 @@ export class AccountService {
 
   async listAllAccounts(): Promise<RegisterAccountDto[]> {
     return await this.accountModel.find();
+  }
+
+  async listAccountByCpf(userCpf: string) {
+    const targetAccount = await this.accountModel.findOne({
+      usuarioCpf: userCpf,
+    });
+
+    if (!targetAccount) {
+      throw new NotFoundException(
+        `Não foi possível encontrar a conta do CPF ${userCpf}`
+      );
+    }
+
+    return targetAccount;
   }
 }

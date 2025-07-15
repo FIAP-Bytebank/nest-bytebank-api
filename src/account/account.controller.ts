@@ -43,6 +43,11 @@ export class AccountController {
     return await this.accountService.listAllAccounts();
   }
 
+  @Get('one')
+  async listAccountByCpf(@Query('usuarioCpf') usuarioCpf: string) {
+    return await this.accountService.listAccountByCpf(usuarioCpf);
+  }
+
   /* ==== START LOAN ==== */
   @Put(':id/loan/new') // adds new loan
   async addNewLoan(@Param('id') id: string, @Body() loanBody: ReqLoanDto) {
