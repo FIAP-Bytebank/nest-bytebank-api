@@ -15,13 +15,11 @@ export class UserController {
 
   @Get()
   async listAllUsers(): Promise<User[]> {
-    console.log('buscando por todos');
     return await this.userService.listAllUsers();
   }
 
   @Get(':id')
   async listUser(@Param('id') id: string): Promise<User> {
-    console.log('buscando por ', id);
     return await this.userService.listUser(id);
   }
 

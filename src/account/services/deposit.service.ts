@@ -53,9 +53,11 @@ export class DepositService {
       accDep.id === targetDeposit.id ? { ...accDep, ...depositBody } : accDep
     );
 
+    const resetBalancce = account.saldo - targetDeposit.valor;
+
     const body = {
       ...account.toObject(),
-      saldo: account.saldo + depositBody.valor,
+      saldo: resetBalancce + depositBody.valor,
       depositos: parsedDeposits,
     };
 

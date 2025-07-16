@@ -59,7 +59,12 @@ export class AccountController {
     @Param('id') id: string,
     @Body() loanBody: ReqLoanDto
   ) {
-    return await this.loanService.updateLoanStatus(id, loanBody);
+    return await this.loanService.payLoan(id, loanBody);
+  }
+
+  @Patch(':id/loan/edit')
+  async editLoan(@Param('id') id: string, @Body() loanBody: ReqLoanDto) {
+    return await this.loanService.editLoan(id, loanBody);
   }
 
   @Patch(':id/loan/delete') //deletes loan

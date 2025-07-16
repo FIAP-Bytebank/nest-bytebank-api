@@ -107,7 +107,7 @@ export class TransactionService {
 
     let body = {
       ...account.toObject(),
-      saldo: account.saldo + targetTransaction.valor,
+      saldo: account.saldo - targetTransaction.valor,
       transferencias: filteredTransactions,
     };
 
