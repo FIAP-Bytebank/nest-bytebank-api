@@ -76,7 +76,7 @@ export class TransactionService {
     let body = {
       ...account.toObject(),
       saldo: resetSaldo - transBody.valor,
-      transferencias: { ...filteredTransactions, ...transBody },
+      transferencias: [...filteredTransactions, transBody],
     };
 
     return await this.accountModel.findByIdAndUpdate(id, body, { new: true });
@@ -107,7 +107,7 @@ export class TransactionService {
 
     let body = {
       ...account.toObject(),
-      saldo: account.saldo - targetTransaction.valor,
+      saldo: account.saldo + targetTransaction.valor,
       transferencias: filteredTransactions,
     };
 
