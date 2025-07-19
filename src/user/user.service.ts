@@ -46,18 +46,18 @@ export class UserService {
     return response;
   }
 
-  async loginUser(loginBody: Login) {
-    const user: any = this.userModel.findOne({
-      'login.email': loginBody.email,
-      'login.password': loginBody.password,
-    });
+  // async loginUser(loginBody: Login) {
+  //   const user: any = this.userModel.findOne({
+  //     'login.email': loginBody.email,
+  //     'login.password': loginBody.password,
+  //   });
 
-    if (!user) {
-      throw new NotFoundException(
-        'Credenciais estão incorretas ou não foram registradas.'
-      );
-    }
+  //   if (!user) {
+  //     throw new NotFoundException(
+  //       'Credenciais estão incorretas ou não foram registradas.'
+  //     );
+  //   }
 
-    return await user;
-  }
+  //   return await user;
+  // }
 }

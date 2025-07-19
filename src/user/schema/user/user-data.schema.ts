@@ -22,4 +22,7 @@ export class Login {
 
   @Prop({ required: true })
   password: string;
+
+  @Prop({ default: null })
+  refreshToken: string;
 }

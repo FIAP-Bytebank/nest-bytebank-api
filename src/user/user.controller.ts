@@ -31,8 +31,8 @@ export class UserController {
     return await this.userService.updateUserAccount(id, updatedUser);
   }
 
-  @Post('login')
-  async loginUser(@Body() loginBody: Login) {
-    return await this.userService.loginUser(loginBody);
-  }
+  // @Post('login')
+  // async loginUser(@Body() loginBody: Login) {
+  //   return await this.userService.loginUser(loginBody);
+  // }
 }
