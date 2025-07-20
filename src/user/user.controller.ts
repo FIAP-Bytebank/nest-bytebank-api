@@ -1,8 +1,17 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDTO } from './dto/register-user.dto';
 import { User } from './schema/user/user.schema';
-import { Login } from './schema/user/user-data.schema';
+import { JWTAuthGuard } from './../auth/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -18,9 +27,10 @@ export class UserController {
     return await this.userService.listAllUsers();
   }
 
-  @Get(':id')
-  async listUser(@Param('id') id: string): Promise<User> {
-    return await this.userService.listUser(id);
+  @UseGuards(JWTAuthGuard)
+  @Get('one')
+  async listAccount(@Request() req) {
+    return req.user;
   }
 
   @Put(':id')
@@ -30,9 +40,4 @@ export class UserController {
   ): Promise<User> {
     return await this.userService.updateUserAccount(id, updatedUser);
   }
-
-  // @Post('login')
-  // async loginUser(@Body() loginBody: Login) {
-  //   return await this.userService.loginUser(loginBody);
-  // }
 }

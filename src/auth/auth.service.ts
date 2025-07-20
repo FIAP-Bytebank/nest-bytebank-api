@@ -18,7 +18,6 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userModel.findOne({ 'login.email': email });
-
     if (!user) {
       throw new NotFoundException(
         'Credenciais estão incorretas ou não foram registradas.'
@@ -34,8 +33,7 @@ export class AuthService {
       );
     }
 
-    const { password: _, ...result } = user.toObject().login;
-    return result;
+    return { _id: user._id };
   }
 
   async loginUser(user: any) {

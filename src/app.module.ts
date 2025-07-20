@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
