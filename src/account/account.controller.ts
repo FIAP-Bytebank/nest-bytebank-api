@@ -8,6 +8,8 @@ import {
   Post,
   Put,
   Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import {
   DepositDto,
@@ -20,6 +22,7 @@ import { LoanService } from './services/loan.service';
 import { DepositService } from './services/deposit.service';
 import { TransactionService } from './services/transaction.service';
 import { AccountService } from './services/account.service';
+import { JWTAuthGuard } from './../auth/jwt-auth.guard';
 
 @Controller('account')
 export class AccountController {
@@ -38,22 +41,25 @@ export class AccountController {
     return await this.accountService.createAccount(account);
   }
 
-  @Get()
+  @Get('all')
   async listAllAccounts(): Promise<RegisterAccountDto[]> {
     return await this.accountService.listAllAccounts();
   }
 
-  @Get('one')
+  @UseGuards(JWTAuthGuard)
+  @Get()
   async listAccountByCpf(@Query('usuarioCpf') usuarioCpf: string) {
     return await this.accountService.listAccountByCpf(usuarioCpf);
   }
 
   /* ==== START LOAN ==== */
+  @UseGuards(JWTAuthGuard)
   @Put(':id/loan/new') // adds new loan
   async addNewLoan(@Param('id') id: string, @Body() loanBody: ReqLoanDto) {
     return await this.loanService.addNewLoan(id, loanBody);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Patch(':id/loan') // updates loan
   async updateLoanStatus(
     @Param('id') id: string,
@@ -62,11 +68,13 @@ export class AccountController {
     return await this.loanService.payLoan(id, loanBody);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Patch(':id/loan/edit')
   async editLoan(@Param('id') id: string, @Body() loanBody: ReqLoanDto) {
     return await this.loanService.editLoan(id, loanBody);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Patch(':id/loan/delete') //deletes loan
   async deleteLoan(@Param('id') id: string, @Query('loanId') loanId: string) {
     return await this.loanService.deleteLoan(id, loanId);
@@ -74,6 +82,7 @@ export class AccountController {
   /* ==== END LOAN ==== */
 
   /* ==== START DEPOSIT ==== */
+  @UseGuards(JWTAuthGuard)
   @Put(':id/deposit/new') // creates new deposit
   async addNewDeposit(
     @Param('id') id: string,
@@ -82,6 +91,7 @@ export class AccountController {
     return await this.depositService.addNewDeposit(id, account);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Patch(':id/deposit') // updates deposit
   async updateDeposit(
     @Param('id') id: string,
@@ -90,6 +100,7 @@ export class AccountController {
     return await this.depositService.updateDeposit(id, depositBody);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Patch(':id/deposit/delete') // deletes deposit
   async deleteDeposit(
     @Param('id') id: string,
@@ -100,6 +111,7 @@ export class AccountController {
   /* ==== END DEPOSIT ==== */
 
   /* ==== START DEPOSIT ==== */
+  @UseGuards(JWTAuthGuard)
   @Put(':id/transaction/new')
   async addNewTransaction(
     @Param('id') id: string,
@@ -108,6 +120,7 @@ export class AccountController {
     return await this.transactionService.addNewTransaction(id, body);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Patch(':id/transaction')
   async updateTransaction(
     @Param('id') id: string,
@@ -116,6 +129,7 @@ export class AccountController {
     return await this.transactionService.updateTransaction(id, body);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Patch(':id/transaction/delete') // deletes deposit
   async deleteTransaction(
     @Param('id') id: string,
