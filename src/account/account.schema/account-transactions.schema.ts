@@ -18,6 +18,9 @@ export class TransTed extends TransferenciaBase {
 
   @Prop()
   descricao: string;
+
+  @Prop()
+  file: string;
 }
 
 @Schema()
@@ -30,6 +33,9 @@ export class TransPix extends TransferenciaBase {
 
   @Prop()
   descricao: string;
+
+  @Prop()
+  file: string;
 }
 
 @Schema({
@@ -47,6 +53,9 @@ export class TransDeposit {
 
   @Prop()
   tipo: TransacationTypes.DEPOSITO;
+
+  @Prop()
+  file: string;
 }
 
 export const TransTedSchema = SchemaFactory.createForClass(TransTed);

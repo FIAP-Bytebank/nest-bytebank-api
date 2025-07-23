@@ -27,6 +27,8 @@ export class DepositDto {
   @Equals(TransacationTypes.DEPOSITO, { message: 'O tipo deve ser DEPOSITO' })
   @IsNotEmpty()
   tipo: TransacationTypes.DEPOSITO;
+
+  file: string;
 }
 
 export class TedDto {
@@ -62,9 +64,7 @@ export class TedDto {
   @IsNotEmpty()
   descricao: string;
 
-  // @Equals(TransacationTypes.TED, { message: 'O tipo deve ser TED.' })
-  // @IsNotEmpty()
-  // tipo: TransacationTypes.TED;
+  file: string;
 }
 
 export class PixDto {
@@ -92,9 +92,7 @@ export class PixDto {
   @IsNotEmpty()
   destinatario: string;
 
-  // @Equals(TransacationTypes.PIX, { message: 'O tipo deve ser PIX.' })
-  // @IsNotEmpty()
-  // tipo: TransacationTypes.PIX;
+  file: string;
 }
 
 export class ReqLoanDto {
@@ -127,6 +125,8 @@ export class ReqLoanDto {
   })
   @IsNotEmpty()
   tipo: TransacationTypes.EMPRESTIMO;
+
+  file: string;
 }
 
 export class RegisterAccountDto {

@@ -24,4 +24,7 @@ export class ReqLoan {
 
   @Prop()
   valorDevido: number;
+
+  @Prop()
+  file: string;
 }
