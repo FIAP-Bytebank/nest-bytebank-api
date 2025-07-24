@@ -10,7 +10,6 @@ import {
 } from './../../account/account.schema/account-transactions.schema';
 import { Account } from './../../account/account.schema/account.schema';
 import mongoose from 'mongoose';
-import { PixDto, TedDto } from './../../account/dto/create-account.dto';
 
 @Injectable()
 export class TransactionService {

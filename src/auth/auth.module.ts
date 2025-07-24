@@ -15,7 +15,7 @@ import { JwtStrategy } from './jwt.strategy';
     JwtModule.register({
       secret: `mMHDgs7+3yixrXxaobKhIxmr2fzxR/F1u4orObPshZ4UTGEAyeeDvo2Gl5SqbiMkZvRMglpDl0ctINT9X7Z0sQ`,
       signOptions: {
-        expiresIn: '60m',
+        expiresIn: '120m',
       },
     }),
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),

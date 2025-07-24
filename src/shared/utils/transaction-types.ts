@@ -1,6 +1,7 @@
 export enum TransacationTypes {
-  DEPOSITO = 'DEPOSITO',
+  DEPOSITO = 'Depósito',
   TED = 'TED',
-  EMPRESTIMO = 'EMPRESTIMO',
-  PIX = 'PIX',
+  EMPRESTIMO = 'Empréstimo',
+  PIX = 'Pix',
+  NULL = '',
 }
