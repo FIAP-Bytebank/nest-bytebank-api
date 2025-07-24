@@ -33,28 +33,29 @@ export class AccountService {
     }
     const parsedAccount = targetAccount.toObject();
 
-    const { depositos, transferencias, historicoEmprestimos, ...account } =
+    const { historicoEmprestimos, depositos, transferencias, ...account } =
       parsedAccount;
 
     let transactions: any[] = [];
     let transacoes = transactions.concat(
-      depositos || [],
-      transferencias || [],
-      historicoEmprestimos || []
+      depositos,
+      transferencias,
+      historicoEmprestimos
     );
 
-    const itemsPagina = Number(query.itemsPage) || 5;
-    const paginaAtual = Number(query.page) || 1;
+    const totalItems = transacoes.length;
+    const itemsPage = Number(query.itemsPage) || totalItems;
+    const currentPage = Number(query.currentPage) || 1;
 
-    const inicio = itemsPagina * (paginaAtual - 1);
-    const fim = inicio + itemsPagina;
+    const inicio = itemsPage * (currentPage - 1);
+    const fim = inicio + itemsPage;
 
     transacoes = transacoes.slice(inicio, fim);
 
     const paginacao = {
-      totalItems: transacoes.length,
-      itemsPagina,
-      paginaAtual,
+      totalItems,
+      itemsPage,
+      currentPage,
     };
 
     return { account, transacoesList: { transacoes, paginacao } };
