@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schema/user/user.schema';
 import mongoose from 'mongoose';
@@ -12,6 +16,17 @@ export class UserService {
   ) {}
 
   async registerUser(user: RegisterUserDTO): Promise<RegisterUserDTO> {
+    const emailExists = await this.userModel.findOne({ email: user.email });
+    const cpfExists = await this.userModel.findOne({ cpf: user.cpf });
+
+    if (emailExists) {
+      throw new ConflictException('Endereço de e-mail já existe na base.');
+    }
+
+    if (cpfExists) {
+      throw new ConflictException('CPF já existe na base.');
+    }
+
     const response = await this.userModel.create(user);
     return response;
   }

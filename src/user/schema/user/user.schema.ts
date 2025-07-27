@@ -23,9 +23,6 @@ export class User {
 
   @Prop({ required: true })
   password: string;
-
-  @Prop({ type: () => DadosBancarios, required: true })
-  dadosBancarios: DadosBancarios;
 }
 
 export type UserDocument = User & Document;

@@ -10,19 +10,6 @@ import {
 
 import { Type } from 'class-transformer';
 
-export class DadosBancariosDto {
-  @IsString()
-  @IsNotEmpty()
-  numeroConta: string;
-
-  @IsString()
-  @IsNotEmpty()
-  agencia: string;
-
-  @IsNumber()
-  digito: number;
-}
-
 export class LoginDto {
   @IsEmail()
   email: string;
@@ -50,10 +37,6 @@ export class RegisterUserDTO {
   @IsNotEmpty({ message: 'Data de nascimento precisa ser informada.' })
   @Length(10, 10, { message: 'Data de nascimento deve ter 10 caracteres.' })
   dataNascimento: string;
-
-  @ValidateNested()
-  @Type(() => DadosBancariosDto)
-  dadosBancarios: DadosBancariosDto;
 
   @IsEmail()
   email: string;

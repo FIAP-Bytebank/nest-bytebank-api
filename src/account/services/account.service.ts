@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Account } from './../../account/account.schema/account.schema';
 import { RegisterAccountDto } from './../../account/dto/create-account.dto';
@@ -14,6 +18,14 @@ export class AccountService {
 
   // creates bank account
   async createAccount(acc: RegisterAccountDto): Promise<RegisterAccountDto> {
+    const cpfExists = await this.accountModel.findOne({
+      usuarioCpf: acc.usuarioCpf,
+    });
+
+    if (cpfExists) {
+      throw new ConflictException('CPF já está relacionado com outra conta.');
+    }
+
     return await this.accountModel.create(acc);
   }
 
