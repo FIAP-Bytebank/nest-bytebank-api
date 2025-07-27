@@ -55,7 +55,10 @@ export class RegisterUserDTO {
   @Type(() => DadosBancariosDto)
   dadosBancarios: DadosBancariosDto;
 
-  @ValidateNested()
-  @Type(() => LoginDto)
-  login: LoginDto;
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @MinLength(6)
+  password: string;
 }

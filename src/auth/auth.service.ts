@@ -17,14 +17,15 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userModel.findOne({ 'login.email': email });
+    const user = await this.userModel.findOne({ email: email });
+    console.log(user);
     if (!user) {
       throw new NotFoundException(
         'Credenciais estão incorretas ou não foram registradas.'
       );
     }
 
-    const isPassValid = password === user.login.password;
+    const isPassValid = password === user.password;
 
     if (!isPassValid) {
       throw new UnauthorizedException(

@@ -86,10 +86,6 @@ export class PixDto {
 
   @IsString()
   @IsNotEmpty()
-  chavePix: string;
-
-  @IsString()
-  @IsNotEmpty()
   destinatario: string;
 
   file: string;

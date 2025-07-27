@@ -1,8 +1,6 @@
 import { Schema, Prop } from '@nestjs/mongoose';
 import { TransacationTypes } from './../../shared/utils/transaction-types';
-@Schema({
-  timestamps: true,
-})
+
 export class ReqLoan {
   @Prop()
   id: string;

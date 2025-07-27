@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { TransacationTypes } from '../../shared/utils/transaction-types';
 import { TransferenciaBase } from './utils/transaction-t.schema';
 
-@Schema()
 export class TransTed extends TransferenciaBase {
   @Prop()
   cpfDestinatario: string;
@@ -23,11 +22,7 @@ export class TransTed extends TransferenciaBase {
   file: string;
 }
 
-@Schema()
 export class TransPix extends TransferenciaBase {
-  @Prop()
-  chavePix: string;
-
   @Prop()
   destinatario: string;
 
@@ -38,9 +33,6 @@ export class TransPix extends TransferenciaBase {
   file: string;
 }
 
-@Schema({
-  timestamps: true,
-})
 export class TransDeposit {
   @Prop()
   id: string;

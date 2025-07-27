@@ -10,14 +10,3 @@ export class DadosBancarios {
   @Prop()
   digito: number;
 }
-
-export class Login {
-  @Prop({ required: true })
-  email: string;
-
-  @Prop({ required: true })
-  password: string;
-
-  @Prop({ default: null })
-  refreshToken: string;
-}
