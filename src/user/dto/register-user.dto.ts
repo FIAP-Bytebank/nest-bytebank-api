@@ -21,10 +21,6 @@ export class DadosBancariosDto {
 
   @IsNumber()
   digito: number;
-
-  @IsString()
-  @IsNotEmpty()
-  chavePix: string;
 }
 
 export class LoginDto {

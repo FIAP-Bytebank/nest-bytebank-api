@@ -1,6 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 
-@Schema()
 export class DadosBancarios {
   @Prop()
   numeroConta: string;
@@ -10,12 +9,8 @@ export class DadosBancarios {
 
   @Prop()
   digito: number;
-
-  @Prop()
-  chavePix: string;
 }
 
-@Schema()
 export class Login {
   @Prop({ required: true })
   email: string;
