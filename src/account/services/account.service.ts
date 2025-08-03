@@ -55,21 +55,6 @@ export class AccountService {
       historicoEmprestimos
     );
 
-    const totalItems = transacoes.length;
-    const itemsPage = Number(query.itemsPage) || totalItems;
-    const currentPage = Number(query.currentPage) || 1;
-
-    const inicio = itemsPage * (currentPage - 1);
-    const fim = inicio + itemsPage;
-
-    transacoes = transacoes.slice(inicio, fim);
-
-    const paginacao = {
-      totalItems,
-      itemsPage,
-      currentPage,
-    };
-
-    return { account, transacoesList: { transacoes, paginacao } };
+    return { account, transacoesList: { transacoes } };
   }
 }

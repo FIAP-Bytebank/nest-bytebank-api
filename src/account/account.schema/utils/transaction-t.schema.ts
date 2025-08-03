@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @Schema({ _id: false, discriminatorKey: 'tipo' })
 export class TransferenciaBase {
   @Prop()
-  id: string;
+  _id: string;
 
   @Prop()
   valor: number;

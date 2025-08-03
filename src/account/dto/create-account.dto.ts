@@ -34,7 +34,7 @@ export class DepositDto {
 export class TedDto {
   @IsString()
   @IsNotEmpty()
-  id: string;
+  _id: string;
 
   @IsString()
   @IsNotEmpty()
@@ -70,7 +70,7 @@ export class TedDto {
 export class PixDto {
   @IsString()
   @IsNotEmpty()
-  id: string;
+  _id: string;
 
   @IsString()
   @IsNotEmpty()

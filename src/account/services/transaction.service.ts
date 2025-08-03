@@ -27,16 +27,6 @@ export class TransactionService {
       );
     }
 
-    const transactionAlrExists = account.transferencias.find(
-      (tf: TransTed | TransPix) => tf.id === transBody.id
-    );
-
-    if (transactionAlrExists) {
-      throw new MethodNotAllowedException(
-        `Já existe uma transação com o id ${transBody.id}`
-      );
-    }
-
     const body = {
       ...account.toObject(),
       saldo: account.saldo - transBody.valor,
@@ -56,18 +46,18 @@ export class TransactionService {
     }
 
     const targetTransaction = account.transferencias.find(
-      (tf: TransTed | TransPix) => tf.id === transBody.id
+      (tf: TransTed | TransPix) => tf._id === transBody._id
     );
 
     if (!targetTransaction) {
       throw new NotFoundException(
-        `Não foi possível localizar a transferência id ${transBody.id}`
+        `Não foi possível localizar a transferência id ${transBody._id}`
       );
     }
 
     const filteredTransactions = account.transferencias.filter(
       (tf: TransTed | TransPix) =>
-        String(tf.id) !== String(targetTransaction.id)
+        String(tf._id) !== String(targetTransaction.id)
     );
 
     let resetSaldo = account.saldo + targetTransaction.valor;
@@ -83,6 +73,7 @@ export class TransactionService {
 
   async deleteTransaction(id: string, transId: string) {
     const account: any = await this.accountModel.findById(id);
+    console.log('Conta', account);
 
     if (!account) {
       throw new NotFoundException(
@@ -91,7 +82,7 @@ export class TransactionService {
     }
 
     const targetTransaction = account.transferencias.find(
-      (tf: TransTed | TransPix) => tf.id === transId
+      (tf: TransTed | TransPix) => tf._id === transId
     );
 
     if (!targetTransaction) {
@@ -101,7 +92,7 @@ export class TransactionService {
     }
 
     const filteredTransactions = account.transferencias.filter(
-      (tf: TransTed | TransPix) => tf.id !== targetTransaction.id
+      (tf: TransTed | TransPix) => tf._id !== targetTransaction.id
     );
 
     let body = {

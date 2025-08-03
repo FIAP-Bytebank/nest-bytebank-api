@@ -27,16 +27,6 @@ export class LoanService {
       );
     }
 
-    let loanAlrExists = account.historicoEmprestimos.find(
-      (ln: ReqLoan) => ln.id === loanBody.id
-    );
-
-    if (loanAlrExists) {
-      throw new MethodNotAllowedException(
-        `Já existe uma transação com o id ${loanBody.id}`
-      );
-    }
-
     let formatedLoan = {
       ...loanBody,
       aberto: true,
