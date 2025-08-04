@@ -33,7 +33,7 @@ export class AccountService {
     return await this.accountModel.find();
   }
 
-  async listAccountByCpf(userCpf: string, query: Query): Promise<any> {
+  async listAccountByCpf(userCpf: string): Promise<any> {
     const targetAccount = await this.accountModel.findOne({
       usuarioCpf: userCpf,
     });

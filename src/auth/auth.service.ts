@@ -7,13 +7,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User } from './../user/schema/user/user.schema';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name)
     private userModel: mongoose.Model<User>,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private configService: ConfigService
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
@@ -29,7 +31,7 @@ export class AuthService {
     if (!isPassValid) {
       throw new UnauthorizedException(
         'Credenciais inválidas.',
-        process.env.JWT_SECRET
+        this.configService.get<string>('JWT_SECRET')
       );
     }
 

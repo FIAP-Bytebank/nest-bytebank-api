@@ -23,7 +23,6 @@ import { DepositService } from './services/deposit.service';
 import { TransactionService } from './services/transaction.service';
 import { AccountService } from './services/account.service';
 import { JWTAuthGuard } from './../auth/jwt-auth.guard';
-import { Query as ExpressQuery } from 'express-serve-static-core';
 
 @Controller('account')
 export class AccountController {
@@ -49,11 +48,8 @@ export class AccountController {
 
   @UseGuards(JWTAuthGuard)
   @Get()
-  async listAccountByCpf(
-    @Query('usuarioCpf') usuarioCpf: string,
-    @Query() query: ExpressQuery
-  ) {
-    return await this.accountService.listAccountByCpf(usuarioCpf, query);
+  async listAccountByCpf(@Query('usuarioCpf') usuarioCpf: string) {
+    return await this.accountService.listAccountByCpf(usuarioCpf);
   }
 
   /* ==== START LOAN ==== */
