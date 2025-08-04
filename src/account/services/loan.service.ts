@@ -59,12 +59,18 @@ export class LoanService {
     }
 
     let targetLoan = account.historicoEmprestimos.find(
-      (ln: ReqLoan) => ln.id === loanBody.id
+      (ln: ReqLoan) => ln.transId === loanBody.transId
     );
 
     if (!targetLoan) {
       throw new NotFoundException(
-        `Não foi possível localizar o empréstimo id ${loanBody.id}`
+        `Não foi possível localizar o empréstimo id ${loanBody.transId}`
+      );
+    }
+
+    if (targetLoan.valorDevido < loanBody.valorPago) {
+      throw new NotAcceptableException(
+        `R$ ${loanBody.valorPago} é maior que o valor devido (R$ ${targetLoan.valorDevido})`
       );
     }
 
@@ -79,7 +85,7 @@ export class LoanService {
     };
 
     const parsedLoans = account.historicoEmprestimos.map((l: any) =>
-      String(l.id) === String(targetLoan.id) ? { ...l, ...body } : l
+      String(l.transId) === String(targetLoan.transId) ? { ...l, ...body } : l
     );
 
     const updatedLoan = {
@@ -103,12 +109,12 @@ export class LoanService {
     }
 
     let targetLoan = account.historicoEmprestimos.find(
-      (ln: ReqLoan) => ln.id === loanBody.id
+      (ln: ReqLoan) => ln.transId === loanBody.transId
     );
 
     if (!targetLoan) {
       throw new NotFoundException(
-        `Não foi possível localizar o empréstimo id ${loanBody.id}`
+        `Não foi possível localizar o empréstimo id ${loanBody.transId}`
       );
     }
 
@@ -142,7 +148,7 @@ export class LoanService {
     }
 
     const parsedLoans = account.historicoEmprestimos.map((l: any) =>
-      String(l.id) === String(targetLoan.id) ? { ...l, ...body } : l
+      String(l.transId) === String(targetLoan.transId) ? { ...l, ...body } : l
     );
 
     const diffValor = loanBody.valor - targetLoan.valor;
@@ -169,7 +175,7 @@ export class LoanService {
     }
 
     let targetLoan = account.historicoEmprestimos.find(
-      (ln: ReqLoan) => ln.id === loanId
+      (ln: ReqLoan) => ln.transId === loanId
     );
 
     if (!targetLoan) {
@@ -179,7 +185,7 @@ export class LoanService {
     }
 
     const parsedLoans = account.historicoEmprestimos.filter(
-      (l: any) => String(l.id) !== String(targetLoan.id)
+      (l: any) => String(l.transId) !== String(targetLoan.transId)
     );
 
     const updatedLoan = {

@@ -40,7 +40,7 @@ export class DepositService {
     }
 
     const targetDeposit = account.depositos.find(
-      (acc: TransDeposit) => acc.id === depositBody.id
+      (acc: TransDeposit) => acc.transId === depositBody.transId
     );
 
     if (!targetDeposit) {
@@ -50,7 +50,9 @@ export class DepositService {
     }
 
     const parsedDeposits = account.depositos.map((accDep: TransDeposit) =>
-      accDep.id === targetDeposit.id ? { ...accDep, ...depositBody } : accDep
+      accDep.transId === targetDeposit.transId
+        ? { ...accDep, ...depositBody }
+        : accDep
     );
 
     const resetBalancce = account.saldo - targetDeposit.valor;
@@ -74,7 +76,7 @@ export class DepositService {
     }
 
     const targetDeposit = account.depositos.find(
-      (acc: TransDeposit) => acc.id === depositId
+      (acc: TransDeposit) => acc.transId === depositId
     );
 
     if (!targetDeposit) {
@@ -84,7 +86,7 @@ export class DepositService {
     }
 
     const parsedDeposits = account.depositos.filter(
-      (accDep: TransDeposit) => accDep.id !== depositId
+      (accDep: TransDeposit) => accDep.transId !== depositId
     );
 
     const body = {

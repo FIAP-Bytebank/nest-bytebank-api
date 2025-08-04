@@ -46,18 +46,18 @@ export class TransactionService {
     }
 
     const targetTransaction = account.transferencias.find(
-      (tf: TransTed | TransPix) => tf._id === transBody._id
+      (tf: TransTed | TransPix) => tf.transId === transBody.transId
     );
 
     if (!targetTransaction) {
       throw new NotFoundException(
-        `Não foi possível localizar a transferência id ${transBody._id}`
+        `Não foi possível localizar a transferência id ${transBody.transId}`
       );
     }
 
     const filteredTransactions = account.transferencias.filter(
       (tf: TransTed | TransPix) =>
-        String(tf._id) !== String(targetTransaction.id)
+        String(tf.transId) !== String(targetTransaction.transId)
     );
 
     let resetSaldo = account.saldo + targetTransaction.valor;
@@ -73,7 +73,6 @@ export class TransactionService {
 
   async deleteTransaction(id: string, transId: string) {
     const account: any = await this.accountModel.findById(id);
-    console.log('Conta', account);
 
     if (!account) {
       throw new NotFoundException(
@@ -82,7 +81,7 @@ export class TransactionService {
     }
 
     const targetTransaction = account.transferencias.find(
-      (tf: TransTed | TransPix) => tf._id === transId
+      (tf: TransTed | TransPix) => tf.transId === transId
     );
 
     if (!targetTransaction) {
@@ -92,7 +91,7 @@ export class TransactionService {
     }
 
     const filteredTransactions = account.transferencias.filter(
-      (tf: TransTed | TransPix) => tf._id !== targetTransaction.id
+      (tf: TransTed | TransPix) => tf.transId !== targetTransaction.transId
     );
 
     let body = {

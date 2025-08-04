@@ -3,7 +3,7 @@ import { TransacationTypes } from './../../shared/utils/transaction-types';
 
 export class ReqLoan {
   @Prop()
-  id: string;
+  transId: string;
 
   @Prop()
   valor: number;

@@ -14,7 +14,7 @@ import { transferenciaTypeFactory } from '../account.schema/utils/functions/tras
 export class DepositDto {
   @IsString()
   @IsNotEmpty()
-  id: string;
+  transId: string;
 
   @IsNumber()
   @IsNotEmpty()
@@ -34,7 +34,7 @@ export class DepositDto {
 export class TedDto {
   @IsString()
   @IsNotEmpty()
-  _id: string;
+  transId: string;
 
   @IsString()
   @IsNotEmpty()
@@ -70,7 +70,7 @@ export class TedDto {
 export class PixDto {
   @IsString()
   @IsNotEmpty()
-  _id: string;
+  transId: string;
 
   @IsString()
   @IsNotEmpty()
@@ -94,7 +94,7 @@ export class PixDto {
 export class ReqLoanDto {
   @IsString()
   @IsNotEmpty()
-  id: string;
+  transId: string;
 
   @IsString()
   @IsNotEmpty()

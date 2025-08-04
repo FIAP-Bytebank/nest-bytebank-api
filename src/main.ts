@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   console.log('Iniciando aplicação NestJS...');
@@ -14,6 +15,9 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   });
+
+  app.use(bodyParser.json({ limit: '3mb' }));
+  app.use(bodyParser.urlencoded({ limit: '3mb', extended: true }));
 
   await app.listen(process.env.PORT ?? 3000);
   console.log(` App rodando na porta ${process.env.PORT ?? 3000}`);

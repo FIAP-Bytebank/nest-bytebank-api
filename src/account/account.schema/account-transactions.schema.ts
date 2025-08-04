@@ -35,7 +35,7 @@ export class TransPix extends TransferenciaBase {
 
 export class TransDeposit {
   @Prop()
-  id: string;
+  transId: string;
 
   @Prop()
   valor: number;
